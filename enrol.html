@@ -1,0 +1,61 @@
+<div align="center">
+
+	<div class="box_generalbox_paypal_message" align="center">
+		<p><?php print_string('paypalerrormessage', 'enrol_paypalrequest') ?></p>
+	</div>
+	
+	<div class="box_generalbox_paypal_payment" align="center">
+			<h2><?php echo get_string("cost").": {$instance->currency} {$cost}"; ?></h2>
+	
+			<h2><?php print_string('paymentmethods', 'enrol_paypalrequest') ?></h2>
+	
+			<p><b>1. <?php print_string('paymentcreditcard', 'enrol_paypalrequest') ?></b></p>
+			<p><img alt="<?php print_string('paypalaccepted', 'enrol_paypalrequest') ?>" src="https://www.paypal.com/en_US/i/logo/PayPal_mark_60x38.gif" /></p>
+			<p><?php print_string('paymentcreditcardintro', 'enrol_paypalrequest') ?></p>
+			
+			<?php
+			    $paypalurl = empty($CFG->usepaypalsandbox) ? 'https://www.paypal.com/cgi-bin/webscr' : 'https://www.sandbox.paypal.com/cgi-bin/webscr';
+			?>
+			<form action="<?php echo $paypalurl ?>" method="post">
+			
+			<input type="hidden" name="cmd" value="_xclick" />
+			<input type="hidden" name="charset" value="utf-8" />
+			<input type="hidden" name="business" value="<?php p($this->get_config('paypalbusiness'))?>" />
+			<input type="hidden" name="item_name" value="<?php p($coursefullname) ?>" />
+			<input type="hidden" name="item_number" value="<?php p($courseshortname) ?>" />
+			<input type="hidden" name="quantity" value="1" />
+			<input type="hidden" name="on0" value="<?php print_string("user") ?>" />
+			<input type="hidden" name="os0" value="<?php p($userfullname) ?>" />
+			<input type="hidden" name="custom" value="<?php echo "{$USER->id}-{$course->id}-{$instance->id}" ?>" />
+			
+			<input type="hidden" name="currency_code" value="<?php p($instance->currency) ?>" />
+			<input type="hidden" name="amount" value="<?php p($cost) ?>" />
+			
+			<input type="hidden" name="for_auction" value="false" />
+			<input type="hidden" name="no_note" value="1" />
+			<input type="hidden" name="no_shipping" value="1" />
+			<input type="hidden" name="notify_url" value="<?php echo "$CFG->wwwroot/enrol/paypalrequest/ipn.php"?>" />
+			<input type="hidden" name="return" value="<?php echo "$CFG->wwwroot/enrol/paypalrequest/return.php?id=$course->id" ?>" />
+			<input type="hidden" name="cancel_return" value="<?php echo $CFG->wwwroot ?>" />
+			<input type="hidden" name="rm" value="2" />
+			<input type="hidden" name="cbt" value="<?php print_string("continuetocourse") ?>" />
+			
+			<input type="hidden" name="first_name" value="<?php p($userfirstname) ?>" />
+			<input type="hidden" name="last_name" value="<?php p($userlastname) ?>" />
+			<input type="hidden" name="address" value="<?php p($useraddress) ?>" />
+			<input type="hidden" name="city" value="<?php p($usercity) ?>" />
+			<input type="hidden" name="email" value="<?php p($USER->email) ?>" />
+			<input type="hidden" name="country" value="<?php p($USER->country) ?>" />
+			
+			<input type="submit" value="<?php print_string("paymentcreditcardbutton", "enrol_paypalrequest") ?>" />
+			
+			</form>
+	</div>
+	<br/>
+	<div class="box_generalbox_paypal_payment" align="center">
+			<!--p><b>2. <?php //print_string('paymentbankdeposit', 'enrol_paypalrequest') ?></b></p-->
+			<p><?php print_string('paymentbankdepositintro', 'enrol_paypalrequest') ?></p>
+			<!--p><?php //print_string('paymentbankdepositintro', 'enrol_paypalrequest') ?>:</p-->
+			<!--p><strong><a href="http://www.iadb.org/es/indes/instrucciones-para-pago-y-cuentas-bancarias-del-bid-en-los-paises,6564.html" target="_blank"><?php //print_string('paymentbankdepositdetails', 'enrol_paypalrequest') ?></a></strong></p-->
+	</div>
+</div>
